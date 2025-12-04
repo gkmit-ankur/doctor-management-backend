@@ -2,27 +2,43 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('appointments_status_histories', {
+    await queryInterface.createTable('appointment_status_histories', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      column1: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
+      appointment_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.DATE
+        foreignKey: true,
+        references: {
+          model: 'appointments',
+          key: 'id'
+        }
       },
-      updatedAt: {
+      status: {
+        type: Sequelize.ENUM('scheduled', 'completed', 'cancelled','deferred'),
+        allowNull: false
+      },
+      created_at: {
         allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('appointments_status_histories');
+    await queryInterface.dropTable('appointment_status_histories');
   }
 };

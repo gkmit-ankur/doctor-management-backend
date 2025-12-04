@@ -9,15 +9,34 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      column1: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
+      key: {
+        type: Sequelize.STRING,
+        unique: true,
         allowNull: false,
-        type: Sequelize.DATE
+        length: 20
       },
-      updatedAt: {
+      title: {
+        type: Sequelize.STRING,
         allowNull: false,
+        length: 50
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        length: 100
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

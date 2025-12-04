@@ -3,21 +3,54 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class appointments extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Appointment extends Model {
+    
     static associate(models) {
-      // define association here
     }
   }
-  appointments.init({
-    column1: DataTypes.STRING
+  Appointment.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    patient_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      foreignKey: true
+    },
+    doctor_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      foreignKey: true
+    },
+    clinic_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      foreignKey: true
+    },
+    slot_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      foreignKey: true
+    },
+    current_status: {
+      type: DataTypes.ENUM('pending', 'confirmed', 'cancelled', 'completed'),
+      allowNull: false
+    },
+    notes: {
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
-    modelName: 'appointments',
+    modelName: 'Appointment',
+    tableName: 'appointment',
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at'
   });
-  return appointments;
+  return Appointment;
 };

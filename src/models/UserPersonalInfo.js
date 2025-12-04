@@ -3,21 +3,53 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class user_personal_info extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class UserPersonalInfo extends Model {
+
     static associate(models) {
-      // define association here
     }
   }
-  user_personal_info.init({
-    column1: DataTypes.STRING
+  UserPersonalInfo.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true
+    },
+    date_of_birth: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'dob' 
+    },
+    gender: {
+      type: DataTypes.ENUM('male', 'female', 'other'),
+      allowNull: true
+    },
+    contact: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    blood_group: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    emergency_contact: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     sequelize,
-    modelName: 'user_personal_info',
+    modelName: 'UserPersonalInfo',
+    tableName: 'user_personal_info',
+    timestamps: true,      
+    paranoid: true,        
+    underscored: true,     
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at'
   });
-  return user_personal_info;
+  return UserPersonalInfo;
 };

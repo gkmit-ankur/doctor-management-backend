@@ -9,15 +9,40 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      column1: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
+      clinic_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.DATE
+        foreignKey: true,
+        references: {
+          model: 'clinics',
+          key: 'id'
+        }
       },
-      updatedAt: {
+      doctor_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        foreignKey: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      deleted_at:{
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

@@ -9,15 +9,47 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      column1: {
-        type: Sequelize.STRING
+      patient_id: {
+        type: Sequelize.INTEGER,
+        foreignKey: true,
+        allowNull: false
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      doctor_id: {
+        type: Sequelize.INTEGER,
+        foreignKey: true,
+        allowNull: false
       },
-      updatedAt: {
+      clinic_id: {
+        type: Sequelize.INTEGER,
+        foreignKey: true,
+        allowNull: false
+      },
+      slot_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        foreignKey: true
+      },
+      current_status: {
+        type: Sequelize.ENUM('scheduled', 'completed', 'cancelled','deferred'),
+        allowNull: false
+      },
+      notes: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        length: 500
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

@@ -9,15 +9,38 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      column1: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
+      nha_id: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.DATE
+        unique: true,
       },
-      updatedAt: {
+      name :{
+        type: Sequelize.STRING,
         allowNull: false,
+      },
+      address :{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      contact :{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      is_active :{
+        type: Sequelize.BOOLEAN
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      deleted_at: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

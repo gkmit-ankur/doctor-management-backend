@@ -3,21 +3,41 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class clinic_doctors_slots extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class ClinicDoctorSlot extends Model {
+    
     static associate(models) {
-      // define association here
     }
   }
-  clinic_doctors_slots.init({
-    column1: DataTypes.STRING
+  ClinicDoctorSlot.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    clinic_doctor_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      foreignKey: true
+    },
+    doctor_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      foreignKey: true
+    },
+    slot_time: {
+      type: DataTypes.TIME,
+      allowNull: false
+    },
   }, {
     sequelize,
-    modelName: 'clinic_doctors_slots',
+    modelName: 'ClinicDoctorSlot',
+    tableName: 'clinic_doctor_slot',
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at'
   });
-  return clinic_doctors_slots;
+  return ClinicDoctorSlot;
 };

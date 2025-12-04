@@ -3,21 +3,35 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class slots extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Slot extends Model {
+    
     static associate(models) {
-      // define association here
     }
   }
-  slots.init({
-    column1: DataTypes.STRING
+  Slot.init({
+    id:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    start_time: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    end_time: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     sequelize,
-    modelName: 'slots',
+    modelName: 'Slot',
+    tableName: 'slot',
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at'
   });
-  return slots;
+  return Slot;
 };

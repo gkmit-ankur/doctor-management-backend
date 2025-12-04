@@ -3,21 +3,48 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class clinic extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Clinic extends Model {
+    
     static associate(models) {
-      // define association here
     }
   }
-  clinic.init({
-    column1: DataTypes.STRING
+  Clinic.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    contact: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    nha_id:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   }, {
     sequelize,
-    modelName: 'clinic',
+    modelName: 'Clinic',
+    tableName: 'clinics',
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at'
   });
-  return clinic;
+  return Clinic;
 };
