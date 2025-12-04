@@ -6,6 +6,31 @@ module.exports = (sequelize, DataTypes) => {
   class Appointment extends Model {
     
     static associate(models) {
+      
+      Appointment.belongsTo(models.UserPersonalInfo, {
+        foreignKey: 'patient_id',
+        as: 'patient'
+      });
+      
+      Appointment.belongsTo(models.DoctorInfo, {
+        foreignKey: 'doctor_id',
+        as: 'doctorInfo'
+      });
+      
+      Appointment.belongsTo(models.Clinic, {
+        foreignKey: 'clinic_id',
+        as: 'clinic'
+      });
+      
+      Appointment.belongsTo(models.Slot, {
+        foreignKey: 'slot_id',
+        as: 'slot'
+      });
+      
+      Appointment.hasMany(models.AppointmentStatusHistory, {
+        foreignKey: 'appointment_id',
+        as: 'statusHistory'
+      });
     }
   }
   Appointment.init({
@@ -44,13 +69,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Appointment',
-    tableName: 'appointment',
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'appointment'
   });
   return Appointment;
 };

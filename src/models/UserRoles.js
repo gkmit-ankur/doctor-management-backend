@@ -6,6 +6,15 @@ module.exports = (sequelize, DataTypes) => {
   class UserRole extends Model {
     static associate(models) {
       
+      UserRole.belongsTo(models.User, {
+        foreignKey: 'user_id',
+        as: 'user'
+      });
+      
+      UserRole.belongsTo(models.Role, {
+        foreignKey: 'role_id',
+        as: 'role'
+      });
     }
   }
   UserRole.init({
@@ -27,13 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'UserRole',
-    tableName: 'user_role',
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'user_role'
   });
   return UserRole;
 };

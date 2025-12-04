@@ -12,17 +12,26 @@ module.exports = {
       clinic_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        foreignKey: true
+        references: {
+          model: 'Clinic',
+          key: 'id'
       },
+    },
       doctor_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        foreignKey: true
+        references: {
+          model: 'DoctorInfo',
+          key: 'id'
+        },
       },
       slot_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        foreignKey: true
+        references: {
+          model: 'Slot',
+          key: 'id'
+        },
       },
       created_at: {
         allowNull: false,

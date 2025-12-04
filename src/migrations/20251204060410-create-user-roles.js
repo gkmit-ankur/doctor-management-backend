@@ -13,11 +13,19 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         foreignKey: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
       role_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         foreignKey: true,
+        references: {
+          model: 'roles',
+          key: 'id'
+        }
       },
       created_at: {
         allowNull: false,

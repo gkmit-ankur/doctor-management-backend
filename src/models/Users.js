@@ -9,8 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate(models) {      
+      User.hasOne(models.UserPersonalInfo, {
+        foreignKey: 'user_id',
+        as: 'personalInfo'
+      });
+      
+      User.hasMany(models.UserRole, {
+        foreignKey: 'user_id',
+        as: 'userRoles'
+      });
+      
+      User.hasMany(models.ClinicDoctor, {
+        foreignKey: 'doctor_id',
+        as: 'clinicDoctors'
+      });
+      
+      User.hasMany(models.ClinicDoctorSlot, {
+        foreignKey: 'doctor_id',
+        as: 'clinicDoctorSlots'
+      });
     }
   }
   User.init({
@@ -40,13 +58,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
-    tableName: 'users',
-    timestamps: true,     
-    paranoid: true,        
-    underscored: true,     
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'users'
   });
   return User;
 };

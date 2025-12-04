@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
   class Slot extends Model {
     
     static associate(models) {
+      Slot.hasMany(models.Appointment, {
+        foreignKey: 'slot_id',
+        as: 'appointments'
+      });
     }
   }
   Slot.init({
@@ -25,13 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Slot',
-    tableName: 'slot',
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'slot'
   });
   return Slot;
 };

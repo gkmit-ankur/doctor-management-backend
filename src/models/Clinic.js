@@ -6,6 +6,21 @@ module.exports = (sequelize, DataTypes) => {
   class Clinic extends Model {
     
     static associate(models) {
+      
+      Clinic.hasMany(models.ClinicDoctor, {
+        foreignKey: 'clinic_id',
+        as: 'clinicDoctors'
+      });
+
+      Clinic.hasMany(models.Appointment, {
+        foreignKey: 'clinic_id',
+        as: 'appointments'
+      });
+      
+      Clinic.hasMany(models.ClinicDoctorSlot, {
+        foreignKey: 'clinic_id',
+        as: 'clinicDoctorSlots'
+      });
     }
   }
   Clinic.init({
@@ -38,13 +53,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Clinic',
-    tableName: 'clinics',
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'clinics'
   });
   return Clinic;
 };

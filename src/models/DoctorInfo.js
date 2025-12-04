@@ -6,7 +6,15 @@ module.exports = (sequelize, DataTypes) => {
   class DoctorInfo extends Model {
 
     static associate(models) {
+      DoctorInfo.belongsTo(models.User, {
+        foreignKey: 'doctor_id',
+        as: 'user'
+      });
       
+      DoctorInfo.hasMany(models.Appointment, {
+        foreignKey: 'doctor_id',
+        as: 'appointments'
+      });
     }
   }
   DoctorInfo.init({
@@ -47,13 +55,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'DoctorInfo',
-    tableName: 'doctor_info',
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'doctor_info'
   });
   return DoctorInfo;
 };

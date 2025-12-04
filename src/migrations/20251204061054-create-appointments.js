@@ -12,22 +12,35 @@ module.exports = {
       patient_id: {
         type: Sequelize.INTEGER,
         foreignKey: true,
-        allowNull: false
+        allowNull: false,
+        references: {
+        model: 'UserPersonalInfo',   
+        key: 'id'
       },
+    },
       doctor_id: {
         type: Sequelize.INTEGER,
-        foreignKey: true,
-        allowNull: false
+        allowNull: false,
+        references: {
+        model: 'DoctorInfo',   
+        key: 'id'
       },
+    },
       clinic_id: {
         type: Sequelize.INTEGER,
-        foreignKey: true,
-        allowNull: false
+        allowNull: false,
+        references: {
+        model: 'Clinic',   
+        key: 'id' 
       },
+    },
       slot_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        foreignKey: true
+        references: {
+        model: 'Slot',   
+        key: 'id'
+      },
       },
       current_status: {
         type: Sequelize.ENUM('scheduled', 'completed', 'cancelled','deferred'),

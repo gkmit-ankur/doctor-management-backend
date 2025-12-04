@@ -6,6 +6,16 @@ module.exports = (sequelize, DataTypes) => {
   class UserPersonalInfo extends Model {
 
     static associate(models) {
+      
+      UserPersonalInfo.belongsTo(models.User, {
+        foreignKey: 'user_id',
+        as: 'user'
+      });
+
+      UserPersonalInfo.hasMany(models.Appointment, {
+        foreignKey: 'patient_id',
+        as: 'appointments'
+      });
     }
   }
   UserPersonalInfo.init({
@@ -43,13 +53,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'UserPersonalInfo',
-    tableName: 'user_personal_info',
-    timestamps: true,      
-    paranoid: true,        
-    underscored: true,     
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'user_personal_info'
   });
   return UserPersonalInfo;
 };

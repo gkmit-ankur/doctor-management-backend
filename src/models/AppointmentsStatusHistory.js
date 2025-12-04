@@ -5,8 +5,11 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class AppointmentStatusHistory extends Model {
     
-    static associate(models) {
-
+    static associate(models) { 
+      AppointmentStatusHistory.belongsTo(models.Appointment, {
+        foreignKey: 'appointment_id',
+        as: 'appointment'
+      });
     }
   }
   AppointmentStatusHistory.init({
@@ -28,13 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   {
     sequelize,
     modelName: 'AppointmentStatusHistory',
-    tableName: 'appointment_status_history',
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at'
+    tableName: 'appointment_status_history'  
   });
   return AppointmentStatusHistory;
 };
