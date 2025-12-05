@@ -2,40 +2,37 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('clinic_doctor_slots', {
+    await queryInterface.createTable('clinic_doctor_slot', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      clinic_id: {
+      clinic_doctor_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Clinic',
+          model: 'clinic_doctors',
           key: 'id'
+        },
       },
-    },
       doctor_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'DoctorInfo',
+          model: 'users',
           key: 'id'
         },
       },
-      slot_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Slot',
-          key: 'id'
-        },
+      slot_time: {
+        type: Sequelize.TIME,
+        allowNull: false
       },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updated_at: {
         allowNull: false,
@@ -44,12 +41,11 @@ module.exports = {
       },
       deleted_at: {
         allowNull: true,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('clinic_doctor_slots');
+    await queryInterface.dropTable('clinic_doctor_slot');
   }
 };

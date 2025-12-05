@@ -8,7 +8,12 @@ const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config
+  {
+    host: config.host,
+    dialect: config.dialect || 'postgres',
+    port: config.port,
+    define: config.define
+  }
 );
 
 const db = { sequelize, Sequelize };
