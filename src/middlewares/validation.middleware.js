@@ -1,18 +1,37 @@
 const Joi = require("joi");
-const validate = (schema) => {
+
+const validate = (schema, property = 'body') => {
     return (req, res, next) => {
-        console.log("Validating request body:", req.body);
-        const { error } = schema.validate(req.body, {
-            abortEarly: false,
-            stripUnknown: false
-        });
-        console.log("Validation result:", error);
-        if (error) {
-            return res.status(400).json({ success: false, message: error.details[0].message });
+        if (property === 'params') {
+            const params = { ...req.params };
+            for (const key in params) {
+                const numValue = parseInt(params[key], 10);
+                if (!isNaN(numValue) && params[key] === numValue.toString()) {
+                    params[key] = numValue;
+                }
+            }
+            req.params = params;
         }
+        
+        const { error, value } = schema.validate(req[property], {
+            abortEarly: false,
+            stripUnknown: true,
+            convert: true
+        });
+        
+        if (error) {
+            const errors = error.details.map(detail => detail.message);
+            return res.status(400).json({
+                success: false,
+                message: 'Validation failed',
+                errors: errors
+            });
+        }
+        req[property] = value;
         next();
     };
 };
+
 module.exports = {
     validate
 };

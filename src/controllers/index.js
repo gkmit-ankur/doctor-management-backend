@@ -1,3 +1,11 @@
 exports.userController = require("./user.controller");
 exports.doctorController = require("./doctor.controller");
 exports.patientController = require("./patient.controller");
+exports.clinicController = require("./clinic.controller");
+exports.roleController = require("./role.controller");
+exports.userRoleController = require("./userRole.controller");
+exports.clinicDoctorController = require("./clinicDoctor.controller");
+exports.clinicDoctorSlotController = require("./clinicDoctorSlot.controller");
+exports.slotController = require("./slot.controller");
+exports.appointmentController = require("./appointment.controller");
+exports.authController = require("./auth.controller");

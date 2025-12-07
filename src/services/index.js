@@ -1,3 +1,11 @@
 exports.userService = require("./user.service");
 exports.doctorService = require("./doctor.service");
 exports.patientService = require("./patient.service");
+exports.clinicService = require("./clinic.service");
+exports.roleService = require("./role.service");
+exports.userRoleService = require("./userRole.service");
+exports.clinicDoctorService = require("./clinicDoctor.service");
+exports.clinicDoctorSlotService = require("./clinicDoctorSlot.service");
+exports.slotService = require("./slot.service");
+exports.appointmentService = require("./appointment.service");
+exports.authService = require("./auth.service");
