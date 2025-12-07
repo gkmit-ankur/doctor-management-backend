@@ -3,11 +3,11 @@ const Joi = require('joi');
 const createSlotSchema = Joi.object({
     clinic_doctor_id: Joi.number().integer().positive().required(),
     doctor_id: Joi.number().integer().positive().required(),
-    slot_time: Joi.string().pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).required()
+    slot_time: Joi.string().pattern(/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/).required()
 });
 
 const updateSlotSchema = Joi.object({
-    slot_time: Joi.string().pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).optional()
+    slot_time: Joi.string().pattern(/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/).optional()
 });
 
 const clinicDoctorIdParamSchema = Joi.object({
