@@ -28,11 +28,17 @@ const createClinic = async (req, res) => {
 };
 const getClinics = async (req, res) => {
     try {
-        const clinics = await clinicService.getClinics();
+        const { limit = 50, 
+                offset = 0 } = req.query;
+
+        const clinics = await clinicService.getClinics({ limit, offset });
 
         return res.status(200).json({
             success: true,
-            data: clinics
+            data: clinics.rows,
+            count: clinics.count,
+            limit: parseInt(limit, 10),
+            offset: parseInt(offset, 10)
         });
     } catch (error) {
         console.error("Error fetching clinics:", error);
