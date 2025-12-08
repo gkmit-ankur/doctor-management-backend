@@ -21,9 +21,8 @@ module.exports = {
         length: 50
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(60),
         allowNull: false,
-        length: 20
       },
       system_generated_password :{
         type: Sequelize.BOOLEAN,
