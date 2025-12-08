@@ -4,26 +4,28 @@ const createClinic = async (payload) => {
     const {
         name,
         address,
-        contact_number,
-        email
+        contact,
+        nha_id,
+        is_active
     } = payload;
     try {
         const existing = await Clinic.findOne({
             where: {
-                name: name
+                nha_id: nha_id
             }
         });
         if (existing) {
             return {
                 success: false,
-                message: "Clinic with this name already exists"
+                message: "Clinic with this NHA ID already exists"
             };
         }
         const clinic = await Clinic.create({
             name,
-            address: address || null,
-            contact_number: contact_number || null,
-            email: email || null
+            address,
+            contact,
+            nha_id,
+            is_active: is_active !== undefined ? is_active : true
         });
         return {
             success: true,

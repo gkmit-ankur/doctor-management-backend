@@ -28,29 +28,34 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       foreignKey: true
     },
+    nha_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    qualification: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     specialization: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    qualifications: {
-      type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     experience: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     contact: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     bio: {
       type: DataTypes.TEXT,
       allowNull: true
     },
     consultation_fee: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
+      type: DataTypes.FLOAT,
+      allowNull: true
     }
   }, {
     sequelize,

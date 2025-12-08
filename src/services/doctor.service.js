@@ -3,8 +3,9 @@ const {DoctorInfo,User,ClinicDoctor,Clinic,Appointment,ClinicDoctorSlot} = requi
 const createDoctor = async (payload) => {
     const {
         doctor_id,
+        nha_id,
         specialization,
-        qualifications,
+        qualification,
         experience,
         contact,
         bio,
@@ -12,10 +13,10 @@ const createDoctor = async (payload) => {
     } = payload;
 
     try {
-        if (!doctor_id || !specialization || !qualifications || !experience || !contact || !consultation_fee) {
+        if (!doctor_id || !nha_id) {
             return {
                 success: false,
-                message: "All fields are required"
+                message: "doctor_id and nha_id are required"
             };
         }
 
@@ -42,12 +43,13 @@ const createDoctor = async (payload) => {
 
         const newDoctor = await DoctorInfo.create({
             doctor_id,
-            specialization,
-            qualifications,
-            experience,
-            contact,
+            nha_id,
+            specialization: specialization || null,
+            qualification: qualification || null,
+            experience: experience || null,
+            contact: contact || null,
             bio: bio || null,
-            consultation_fee
+            consultation_fee: consultation_fee || null
         });
 
         return {

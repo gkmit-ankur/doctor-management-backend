@@ -4,10 +4,10 @@ const createDoctor = async (req, res, next) => {
     const body = req.body;
 
     try {
-        if (!body.doctor_id || !body.specialization || !body.qualifications || !body.experience || !body.contact || !body.consultation_fee) {
+        if (!body.doctor_id || !body.nha_id) {
             return res.status(400).json({
                 success: false,
-                message: "Enter all the required fields"
+                message: "doctor_id and nha_id are required fields"
             });
         }
 

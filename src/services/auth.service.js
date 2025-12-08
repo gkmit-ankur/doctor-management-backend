@@ -64,6 +64,14 @@ const register = async (payload) => {
             password: hashedPassword
         });
         if (role_id) {
+            
+            const role = await Role.findByPk(role_id);
+            if (!role) {
+                return {
+                    success: false,
+                    message: "Role not found"
+                };
+            }
             await UserRole.create({
                 user_id: user.id,
                 role_id: role_id

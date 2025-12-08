@@ -3,6 +3,23 @@ const { UserRole, User, Role } = require("../models");
 const assignRoleToUser = async (payload) => {
     const { user_id, role_id } = payload;
     try {
+        
+        const role = await Role.findByPk(role_id);
+        if (!role) {
+            return {
+                success: false,
+                message: "Role not found"
+            };
+        }
+        
+        const user = await User.findByPk(user_id);
+        if (!user) {
+            return {
+                success: false,
+                message: "User not found"
+            };
+        }
+        
         const existing = await UserRole.findOne({
             where: { user_id, role_id }
         });
