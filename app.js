@@ -16,37 +16,37 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Auth routes (no prefix)
+
 app.use("/api/auth", authRoute);
 
-// User routes
+
 app.use("/api", userRoute);
 
-// Role routes
+
 app.use("/api/roles", roleRoute);
 
-// User Role routes
+
 app.use("/api/user-roles", userRoleRoute);
 
-// Doctor routes
+
 app.use("/api/doctors", doctorRoute);
 
-// Patient routes
+
 app.use("/api/patients", patientRoute);
 
-// Clinic routes
+
 app.use("/api", clinicRoute);
 
-// Clinic Doctor routes
+
 app.use("/api/clinic-doctors", clinicDoctorRoute);
 
-// Clinic Doctor Slot routes
+
 app.use("/api/clinic-doctor-slots", clinicDoctorSlotRoute);
 
-// Slot routes
+
 app.use("/api/slots", slotRoute);
 
-// Appointment routes
+
 app.use("/api/appointments", appointmentRoute);
 
 const port = process.env.PORT || 3001;

@@ -112,4 +112,3 @@ module.exports = {
     updateSlot,
     deleteSlot
 };
-

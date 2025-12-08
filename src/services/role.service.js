@@ -119,4 +119,3 @@ module.exports = {
     updateRole,
     deleteRole
 };
-
