@@ -20,11 +20,6 @@ module.exports = {
         allowNull: false,
         length: 50
       },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        length: 100
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -43,7 +43,6 @@ const viewUsers = async (req, res, next) => {
                 exclude: ["password", "created_at", "updated_at", "deleted_at"]
             }
         });
-        console.log(users);
 
         return {
             success: true,

@@ -39,9 +39,18 @@ const createClinic = async (payload) => {
     }
 };
 
-const getClinics = async () => {
+const getClinics = async (filters = {}) => {
+    const {
+        limit = 50,
+        offset = 0
+    } = filters;
+
     try {
-        const clinics = await Clinic.findAll();
+        const clinics = await Clinic.findAndCountAll({
+            limit: parseInt(limit, 10),
+            offset: parseInt(offset, 10),
+            order: [["created_at", "DESC"]]
+        });
         return clinics;
     } catch (err) {
         throw err;
