@@ -14,7 +14,7 @@ module.exports = {
         foreignKey: true,
         allowNull: false,
         references: {
-        model: 'UserPersonalInfo',   
+        model: 'user_personal_info',   
         key: 'id'
       },
     },
@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-        model: 'DoctorInfo',   
+        model: 'doctor_info',   
         key: 'id'
       },
     },
@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-        model: 'Clinic',   
+        model: 'clinics',   
         key: 'id' 
       },
     },
@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-        model: 'Slot',   
+        model: 'slots',   
         key: 'id'
       },
       },

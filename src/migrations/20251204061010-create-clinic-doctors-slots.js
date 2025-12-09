@@ -9,33 +9,30 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      clinic_id: {
+      clinic_doctor_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Clinic',
+          model: 'clinic_doctors',
           key: 'id'
+        },
       },
-    },
       doctor_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'DoctorInfo',
+          model: 'users',
           key: 'id'
         },
       },
-      slot_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Slot',
-          key: 'id'
-        },
+      slot_time: {
+        type: Sequelize.TIME,
+        allowNull: false
       },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updated_at: {
         allowNull: false,
@@ -44,8 +41,7 @@ module.exports = {
       },
       deleted_at: {
         allowNull: true,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        type: Sequelize.DATE
       }
     });
   },
