@@ -1,4 +1,5 @@
 const {DoctorInfo,User,ClinicDoctor,Clinic,Appointment,ClinicDoctorSlot} = require("../models");
+const { Op } = require("sequelize");
 
 const createDoctor = async (payload) => {
     const {
@@ -109,7 +110,13 @@ const viewDoctors = async (filters = {}) => {
 
 const getDoctorById = async (doctorId) => {
     try {
-        const doctor = await DoctorInfo.findByPk(doctorId, {
+        const doctor = await DoctorInfo.findOne({
+            where: {
+                [Op.or]: [
+                    { id: identifier },
+                    { doctor_id: identifier }
+                ]
+            },
             include: [{
                     model: User,
                     as: 'user',
@@ -145,39 +152,6 @@ const getDoctorById = async (doctorId) => {
         throw error;
     }
 };
-
-const getDoctorByUserId = async (userId) => {
-    try {
-        const doctor = await DoctorInfo.findOne({
-            where: {
-                doctor_id: userId
-            },
-            include: [{
-                model: User,
-                as: 'user',
-                attributes: ['id', 'name', 'email']
-            }],
-            attributes: {
-                exclude: ['created_at', 'updated_at', 'deleted_at']
-            }
-        });
-
-        if (!doctor) {
-            return {
-                success: false,
-                message: "Doctor not found"
-            };
-        }
-
-        return {
-            success: true,
-            data: doctor
-        };
-    } catch (error) {
-        throw error;
-    }
-};
-
 
 const updateDoctor = async (doctorId, payload) => {
     try {
@@ -303,7 +277,6 @@ module.exports = {
     createDoctor,
     viewDoctors,
     getDoctorById,
-    getDoctorByUserId,
     updateDoctor,
     deleteDoctor,
     getDoctorClinics,

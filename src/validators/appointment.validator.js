@@ -23,4 +23,3 @@ module.exports = {
     appointmentIdParamSchema,
     appointmentQuerySchema
 };
-

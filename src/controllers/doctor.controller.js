@@ -61,21 +61,19 @@ const viewDoctors = async (req, res, next) => {
         });
     }
 };
-const getDoctor = async (req, res, next) => {
+const getDoctorById = async (req, res, next) => {
     try {
-        const id = parseInt(req.params.id);
-        const by = (req.query.by || "").toLowerCase();
+        const identifier = parseInt(req.params.id);
+        
 
-        if (isNaN(id)) {
+        if (isNaN(identifier)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid id"
             });
         }
 
-        const result = by === "user"
-            ? await doctorService.getDoctorByUserId(id)
-            : await doctorService.getDoctorById(id);
+        const result = await doctorService.getDoctorById(identifier);
 
         if (!result.success) {
             return res.status(404).json({
@@ -234,7 +232,7 @@ const getDoctorAppointments = async (req, res, next) => {
 module.exports = {
     createDoctor,
     viewDoctors,
-    getDoctor,
+    getDoctorById,
     updateDoctor,
     deleteDoctor,
     getDoctorClinics,
