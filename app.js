@@ -18,35 +18,15 @@ app.use(express.json());
 
 
 app.use("/api/auth", authRoute);
-
-
 app.use("/api", userRoute);
-
-
 app.use("/api/roles", roleRoute);
-
-
 app.use("/api/user-roles", userRoleRoute);
-
-
 app.use("/api/doctors", doctorRoute);
-
-
 app.use("/api/patients", patientRoute);
-
-
 app.use("/api", clinicRoute);
-
-
 app.use("/api/clinic-doctors", clinicDoctorRoute);
-
-
 app.use("/api/clinic-doctor-slots", clinicDoctorSlotRoute);
-
-
 app.use("/api/slots", slotRoute);
-
-
 app.use("/api/appointments", appointmentRoute);
 
 const port = process.env.PORT || 3001;
