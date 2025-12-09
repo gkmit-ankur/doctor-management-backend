@@ -7,10 +7,7 @@ const assignDoctorToClinic = async (payload) => {
             where: { clinic_id, doctor_id }
         });
         if (existing) {
-            return {
-                success: false,
-                message: "Doctor already assigned to this clinic"
-            };
+            throw new Error("Doctor already assigned to this clinic");
         }
         const clinicDoctor = await ClinicDoctor.create({
             clinic_id,
@@ -33,34 +30,42 @@ const assignDoctorToClinic = async (payload) => {
     }
 };
 
-const getClinicDoctors = async (clinicId) => {
+const getClinicDoctors = async (clinicId,pagination= {}) => {
     try {
-        const clinicDoctors = await ClinicDoctor.findAll({
+        const {limit = 50, offset = 0} = pagination;
+        const { rows,count} = await ClinicDoctor.findAndCountAll({
             where: { clinic_id: clinicId },
             include: [
                 { model: User, as: 'doctor', attributes: ['id', 'name', 'email'] }
-            ]
+            ],
+            limit: parseInt(limit,10),
+            offset: parseInt(offset,10)
         });
         return {
             success: true,
-            data: clinicDoctors
+            data: rows,
+            count
         };
     } catch (error) {
         throw error;
     }
 };
 
-const getDoctorClinics = async (doctorId) => {
+const getDoctorClinics = async (doctorId,pagination = {}) => {
     try {
-        const clinicDoctors = await ClinicDoctor.findAll({
+        const {limit =50 ,offset=0} = pagination;
+        const { rows,count} = await ClinicDoctor.findAndCountAll({
             where: { doctor_id: doctorId },
             include: [
                 { model: Clinic, as: 'clinic', attributes: ['id', 'name', 'address', 'contact'] }
-            ]
+            ],
+            limit: parseInt(limit),
+            offset: parseInt(offset)
         });
         return {
             success: true,
-            data: clinicDoctors
+            data: rows,
+            count
         };
     } catch (error) {
         throw error;
@@ -77,9 +82,7 @@ const updateClinicDoctor = async (clinicDoctorId, payload) => {
                 message: "Clinic doctor assignment not found"
             };
         }
-        await clinicDoctor.update({
-            is_active: is_active !== undefined ? is_active : clinicDoctor.is_active
-        });
+        await clinicDoctor.update({is_active});
         return {
             success: true,
             message: "Clinic doctor updated successfully",

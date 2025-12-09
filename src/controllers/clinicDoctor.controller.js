@@ -24,10 +24,12 @@ const assignDoctorToClinic = async (req, res) => {
 
 const getClinicDoctors = async (req, res) => {
     try {
-        const result = await clinicDoctorService.getClinicDoctors(req.params.clinicId);
+        const {limit, offset} = req.query;
+        const result = await clinicDoctorService.getClinicDoctors(req.params.clinicId,{limit, offset});
         return res.status(200).json({
             success: true,
-            data: result.data
+            data: result.data,
+            count: result.count
         });
     } catch (error) {
         return res.status(500).json({
@@ -39,10 +41,12 @@ const getClinicDoctors = async (req, res) => {
 
 const getDoctorClinics = async (req, res) => {
     try {
-        const result = await clinicDoctorService.getDoctorClinics(req.params.doctorId);
+        const {limit, offset} = req.query;
+        const result = await clinicDoctorService.getDoctorClinics(req.params.doctorId,{limit, offset});
         return res.status(200).json({
             success: true,
-            data: result.data
+            data: result.data,
+            count: result.count
         });
     } catch (error) {
         return res.status(500).json({

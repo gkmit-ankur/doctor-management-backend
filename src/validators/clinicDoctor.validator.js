@@ -7,7 +7,7 @@ const assignDoctorSchema = Joi.object({
 });
 
 const updateClinicDoctorSchema = Joi.object({
-    is_active: Joi.boolean().optional()
+    is_active: Joi.boolean().required()
 });
 
 const clinicIdParamSchema = Joi.object({
@@ -21,12 +21,17 @@ const doctorIdParamSchema = Joi.object({
 const clinicDoctorIdParamSchema = Joi.object({
     id: Joi.number().integer().positive().required()
 });
+const paginationQuerySchema = Joi.object({
+    limit: Joi.number().integer().min(1).max(100).optional(),
+    offset: Joi.number().integer().min(0).optional()
+});
 
 module.exports = {
     assignDoctorSchema,
     updateClinicDoctorSchema,
     clinicIdParamSchema,
     doctorIdParamSchema,
-    clinicDoctorIdParamSchema
+    clinicDoctorIdParamSchema,
+    paginationQuerySchema
 };
 

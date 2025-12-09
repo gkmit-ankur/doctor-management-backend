@@ -52,10 +52,7 @@ const register = async (payload) => {
     try {
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
-            return {
-                success: false,
-                message: "User with this email already exists"
-            };
+            throw new Error("User with this email already exists");
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = await User.create({
@@ -67,10 +64,7 @@ const register = async (payload) => {
             
             const role = await Role.findByPk(role_id);
             if (!role) {
-                return {
-                    success: false,
-                    message: "Role not found"
-                };
+                throw new Error("role not found");
             }
             await UserRole.create({
                 user_id: user.id,

@@ -1,7 +1,7 @@
 const { Role, UserRole } = require("../models");
 
 const createRole = async (payload) => {
-    const { key, title, description } = payload;
+    const { key, title,  } = payload;
     try {
         const existing = await Role.findOne({
             where: { key: key }
@@ -15,7 +15,6 @@ const createRole = async (payload) => {
         const role = await Role.create({
             key,
             title,
-            description: description || null
         });
         return {
             success: true,
@@ -60,7 +59,7 @@ const getRoleById = async (roleId) => {
 };
 
 const updateRole = async (roleId, payload) => {
-    const { key, title, description } = payload;
+    const { key, title, } = payload;
     try {
         const role = await Role.findByPk(roleId);
         if (!role) {

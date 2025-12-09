@@ -4,14 +4,6 @@ const createClinic = async (req, res) => {
     const body = req.body;
 
     try {
-        if (!body.name || !body.address || !body.contact || !body.nha_id) {
-            console.log("Please provide the required data");
-            return res.status(400).json({
-                success: false,
-                message: "Name, address, contact, and nha_id are required."
-            });
-        }
-
         const clinic = await clinicService.createClinic(body);
 
         return res.status(201).json({

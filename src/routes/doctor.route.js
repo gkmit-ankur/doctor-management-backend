@@ -1,6 +1,6 @@
 const express = require("express");
-const { doctorController } = require("../controllers");
-const { doctorValidator } = require("../validators");
+const { doctorController,clinicDoctorSlotController } = require("../controllers");
+const { doctorValidator, clinicDoctorSlotValidator } = require("../validators");
 const { validate } = require("../middlewares/validation.middleware");
 const router = express.Router();
 
@@ -12,4 +12,9 @@ router.delete("/:id", validate(doctorValidator.doctorIdParamSchema, 'params'), d
 router.get("/:id/clinics", validate(doctorValidator.doctorIdParamSchema, 'params'), doctorController.getDoctorClinics);
 router.get("/:id/appointments", validate(doctorValidator.doctorIdParamSchema, 'params'), validate(doctorValidator.appointmentQuerySchema, 'query'), doctorController.getDoctorAppointments);
 
+router.post("/", validate(clinicDoctorSlotValidator.createSlotSchema), clinicDoctorSlotController.createClinicDoctorSlot);
+router.get("/clinic-doctor/:clinicDoctorId", validate(clinicDoctorSlotValidator.clinicDoctorIdParamSchema, 'params'), clinicDoctorSlotController.getClinicDoctorSlots);
+router.get("/doctor/:doctorId", validate(clinicDoctorSlotValidator.doctorIdParamSchema, 'params'), clinicDoctorSlotController.getDoctorSlots);
+router.put("/:id", validate(clinicDoctorSlotValidator.slotIdParamSchema, 'params'), validate(clinicDoctorSlotValidator.updateSlotSchema), clinicDoctorSlotController.updateClinicDoctorSlot);
+router.delete("/:id", validate(clinicDoctorSlotValidator.slotIdParamSchema, 'params'), clinicDoctorSlotController.deleteClinicDoctorSlot);
 module.exports = router;

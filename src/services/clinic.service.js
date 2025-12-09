@@ -25,7 +25,7 @@ const createClinic = async (payload) => {
             address,
             contact,
             nha_id,
-            is_active: is_active !== undefined ? is_active : true
+            is_active: is_active ?? true
         });
         return {
             success: true,

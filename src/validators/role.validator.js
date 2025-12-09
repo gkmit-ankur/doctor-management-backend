@@ -3,13 +3,13 @@ const Joi = require('joi');
 const createRoleSchema = Joi.object({
     key: Joi.string().min(1).max(20).required(),
     title: Joi.string().min(1).max(50).required(),
-    description: Joi.string().max(100).optional()
+    
 });
 
 const updateRoleSchema = Joi.object({
     key: Joi.string().min(1).max(20).optional(),
     title: Joi.string().min(1).max(50).optional(),
-    description: Joi.string().max(100).optional()
+    
 });
 
 const roleIdParamSchema = Joi.object({
