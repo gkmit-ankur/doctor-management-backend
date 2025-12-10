@@ -18,11 +18,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             echo "---- Pulling latest changes ----"
             cd /doctor-management-backend
-            git fetch --all
+            git fetch --feature/test
             git reset --hard origin/feature/test
             echo "---- Installing dependencies ----"
             npm install --production
             echo "---- Restarting server ----"
-            pm2 restart all
+            pm2 restart feature-test
             echo "---- Deployment Completed Successfully ----"
           EOF
