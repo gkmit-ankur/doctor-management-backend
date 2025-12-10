@@ -17,21 +17,32 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
       - name: Deploy to EC2
+        env:
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
-            echo "---- Pulling latest changes ----" &&
-            cd ~/doctor-management-backend || cd /home/$USER/doctor-management-backend &&
-            git fetch origin feature/test &&
-            git reset --hard origin/feature/test &&
-            
-            echo "---- Installing dependencies ----" &&
-            npm install --production &&
-            
-            echo "---- Restarting server ----" &&
-            export PATH=$PATH:/usr/local/bin:~/.npm-global/bin &&
-            pm2 restart feature-test || pm2 start ecosystem.config.js --only feature-test &&
-            
+          # Fail early with a clear message if required secrets are missing
+          if [ -z "$EC2_USER" ] || [ -z "$EC2_HOST" ]; then
+            echo "Required secrets EC2_USER or EC2_HOST are missing. Set repository secrets and retry." >&2
+            exit 1
+          fi
+
+          # Use a quoted heredoc so all expansions (like $USER) happen on the remote host,
+          # and avoid inline-quoting problems that caused the unexpected EOF error.
+          ssh -o StrictHostKeyChecking=no "$EC2_USER@$EC2_HOST" << 'REMOTE_EOF'
+            set -euo pipefail
+            echo "---- Pulling latest changes ----"
+            cd ~/doctor-management-backend || cd /home/$USER/doctor-management-backend
+            git fetch origin feature/test
+            git reset --hard origin/feature/test
+
+            echo "---- Installing dependencies ----"
+            npm install --production
+
+            echo "---- Restarting server ----"
+            export PATH=$PATH:/usr/local/bin:~/.npm-global/bin
+            pm2 restart feature-test || pm2 start ecosystem.config.js --only feature-test
+
             echo "---- Deployment Completed Successfully ----"
-          '
+          REMOTE_EOF
