@@ -89,7 +89,10 @@ const register = async (payload) => {
             }
         };
     } catch (error) {
-        throw error;
+        return {
+            success: false,
+            message: error.message || "Registration failed"
+        };
     }
 };
 

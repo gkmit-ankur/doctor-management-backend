@@ -26,7 +26,10 @@ const assignDoctorToClinic = async (payload) => {
             data: fullData
         };
     } catch (error) {
-        throw error;
+        return {
+            success: false,
+            message: error.message || "Assignment failed"
+        };
     }
 };
 
