@@ -19,7 +19,6 @@ module.exports = {
       {
         key: 'patient',
         title: 'Patient',
-        description: 'Patient user',
         created_at: new Date(),
         updated_at: new Date()
       }
