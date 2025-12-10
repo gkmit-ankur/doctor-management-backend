@@ -1,10 +1,12 @@
 const {DoctorInfo,User,ClinicDoctor,Clinic,Appointment,ClinicDoctorSlot} = require("../models");
+const { Op } = require("sequelize");
 
 const createDoctor = async (payload) => {
     const {
         doctor_id,
+        nha_id,
         specialization,
-        qualifications,
+        qualification,
         experience,
         contact,
         bio,
@@ -12,10 +14,10 @@ const createDoctor = async (payload) => {
     } = payload;
 
     try {
-        if (!doctor_id || !specialization || !qualifications || !experience || !contact || !consultation_fee) {
+        if (!doctor_id || !nha_id) {
             return {
                 success: false,
-                message: "All fields are required"
+                message: "doctor_id and nha_id are required"
             };
         }
 
@@ -42,12 +44,13 @@ const createDoctor = async (payload) => {
 
         const newDoctor = await DoctorInfo.create({
             doctor_id,
-            specialization,
-            qualifications,
-            experience,
-            contact,
+            nha_id,
+            specialization: specialization || null,
+            qualification: qualification || null,
+            experience: experience || null,
+            contact: contact || null,
             bio: bio || null,
-            consultation_fee
+            consultation_fee: consultation_fee || null
         });
 
         return {
@@ -107,7 +110,13 @@ const viewDoctors = async (filters = {}) => {
 
 const getDoctorById = async (doctorId) => {
     try {
-        const doctor = await DoctorInfo.findByPk(doctorId, {
+        const doctor = await DoctorInfo.findOne({
+            where: {
+                [Op.or]: [
+                    { id: identifier },
+                    { doctor_id: identifier }
+                ]
+            },
             include: [{
                     model: User,
                     as: 'user',
@@ -143,39 +152,6 @@ const getDoctorById = async (doctorId) => {
         throw error;
     }
 };
-
-const getDoctorByUserId = async (userId) => {
-    try {
-        const doctor = await DoctorInfo.findOne({
-            where: {
-                doctor_id: userId
-            },
-            include: [{
-                model: User,
-                as: 'user',
-                attributes: ['id', 'name', 'email']
-            }],
-            attributes: {
-                exclude: ['created_at', 'updated_at', 'deleted_at']
-            }
-        });
-
-        if (!doctor) {
-            return {
-                success: false,
-                message: "Doctor not found"
-            };
-        }
-
-        return {
-            success: true,
-            data: doctor
-        };
-    } catch (error) {
-        throw error;
-    }
-};
-
 
 const updateDoctor = async (doctorId, payload) => {
     try {
@@ -301,7 +277,6 @@ module.exports = {
     createDoctor,
     viewDoctors,
     getDoctorById,
-    getDoctorByUserId,
     updateDoctor,
     deleteDoctor,
     getDoctorClinics,

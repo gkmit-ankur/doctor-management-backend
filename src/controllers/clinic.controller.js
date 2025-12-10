@@ -4,14 +4,6 @@ const createClinic = async (req, res) => {
     const body = req.body;
 
     try {
-        if (!body.name || !body.address || !body.phone) {
-            console.log("Please provide the required data");
-            return res.status(400).json({
-                success: false,
-                message: "Name, address, and phone are required."
-            });
-        }
-
         const clinic = await clinicService.createClinic(body);
 
         return res.status(201).json({
@@ -141,43 +133,11 @@ const deleteClinic = async (req, res) => {
         });
     }
 };
-const deleteDoctor = async (req, res, next) => {
-    try {
-        const doctorId = parseInt(req.params.id);
-
-        if (isNaN(doctorId)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid doctor ID"
-            });
-        }
-
-        const result = await doctorService.deleteDoctor(doctorId);
-
-        if (!result.success) {
-            return res.status(404).json({
-                success: false,
-                message: result.message
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Doctor deleted successfully"
-        });
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
 
 module.exports = {
     createClinic,
     getClinics,
     getClinicById,
     updateClinic,
-    deleteClinic,
-    deleteDoctor
+    deleteClinic
 };

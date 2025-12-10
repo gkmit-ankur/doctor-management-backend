@@ -4,7 +4,7 @@ module.exports = {
   database: process.env.DB_NAME,
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
-  host: process.env.DB_HOST,
+  host: process.env.DB_HOST || 'localhost',
   dialect: process.env.DB_DIALECT || 'postgres',
   port: process.env.DB_PORT || 5432,
   define: {
