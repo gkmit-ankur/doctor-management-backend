@@ -7,14 +7,12 @@ module.exports = {
       {
         key: 'admin',
         title: 'Administrator',
-        description: 'System administrator with full access',
         created_at: new Date(),
         updated_at: new Date()
       },
       {
         key: 'doctor',
         title: 'Doctor',
-        description: 'Medical doctor',
         created_at: new Date(),
         updated_at: new Date()
       },

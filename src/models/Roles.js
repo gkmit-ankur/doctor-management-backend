@@ -32,11 +32,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true
-    }
-  }, {
+  }, 
+  {
     sequelize,
     modelName: 'Role',
     tableName: 'roles'
