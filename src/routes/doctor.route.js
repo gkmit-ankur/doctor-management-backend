@@ -12,7 +12,7 @@ router.delete("/:id", validate(doctorValidator.doctorIdParamSchema, 'params'), d
 router.get("/:id/clinics", validate(doctorValidator.doctorIdParamSchema, 'params'), doctorController.getDoctorClinics);
 router.get("/:id/appointments", validate(doctorValidator.doctorIdParamSchema, 'params'), validate(doctorValidator.appointmentQuerySchema, 'query'), doctorController.getDoctorAppointments);
 
-router.post("/", validate(clinicDoctorSlotValidator.createSlotSchema), clinicDoctorSlotController.createClinicDoctorSlot);
+router.post("/clinicDoctorSlot", validate(clinicDoctorSlotValidator.createSlotSchema), clinicDoctorSlotController.createClinicDoctorSlot);
 router.get("/clinic-doctor/:clinicDoctorId", validate(clinicDoctorSlotValidator.clinicDoctorIdParamSchema, 'params'), clinicDoctorSlotController.getClinicDoctorSlots);
 router.get("/doctor/:doctorId", validate(clinicDoctorSlotValidator.doctorIdParamSchema, 'params'), clinicDoctorSlotController.getDoctorSlots);
 router.put("/:id", validate(clinicDoctorSlotValidator.slotIdParamSchema, 'params'), validate(clinicDoctorSlotValidator.updateSlotSchema), clinicDoctorSlotController.updateClinicDoctorSlot);
