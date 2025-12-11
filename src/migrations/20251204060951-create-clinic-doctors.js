@@ -12,7 +12,6 @@ module.exports = {
       clinic_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        foreignKey: true,
         references: {
           model: 'clinics',
           key: 'id'
@@ -21,7 +20,6 @@ module.exports = {
       doctor_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        foreignKey: true,
         references: {
           model: 'users',
           key: 'id'

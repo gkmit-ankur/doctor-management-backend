@@ -22,11 +22,11 @@ module.exports = {
       }
     }
     
-    await queryInterface.bulkInsert('slot', slots, {});
+    await queryInterface.bulkInsert('slots', slots, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('slot', null, {});
+    await queryInterface.bulkDelete('slots', null, {});
   }
 };
 
