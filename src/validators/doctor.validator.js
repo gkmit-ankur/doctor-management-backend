@@ -42,7 +42,7 @@ const doctorQuerySchema = Joi.object({
 });
 
 const appointmentQuerySchema = Joi.object({
-    status: Joi.string().valid('pending', 'confirmed', 'cancelled', 'completed').optional(),
+    status: Joi.string().valid('scheduled', 'confirmed', 'cancelled', 'deferred').optional(),
     limit: Joi.number().integer().min(1).max(100).optional(),
     offset: Joi.number().integer().min(0).optional()
 });
