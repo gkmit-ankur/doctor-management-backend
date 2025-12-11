@@ -69,7 +69,7 @@ const updateAppointmentStatus = async (appointmentId, status, notes) => {
                 message: "Appointment not found"
             };
         }
-        const validStatuses = ['pending', 'confirmed', 'cancelled', 'completed'];
+        const validStatuses = ['scheduled', 'confirmed', 'cancelled', 'deferred'];
         if (!validStatuses.includes(status)) {
             await t.rollback();
             return {
@@ -87,13 +87,22 @@ const updateAppointmentStatus = async (appointmentId, status, notes) => {
         }, { transaction: t });
         await t.commit();
         const full = await getAppointmentById(appointmentId);
+            if (!full.success) {
+            return {
+                success: false,
+                message: full.message || "Failed to retrieve appointment"
+            };
+        }
         return {
             success: true,
             message: "Appointment status updated successfully",
             data: full.data
         };
     } catch (error) {
+        try {
         await t.rollback();
+        } catch (rollbackErr) {
+        }
         throw error;
     }
 };

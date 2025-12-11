@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'ClinicDoctorSlot',
-    tableName: 'clinic_doctor_slot'
+    tableName: 'clinic_doctor_slots'
   });
   return ClinicDoctorSlot;
 };

@@ -1,4 +1,5 @@
 const { UserPersonalInfo, User, Appointment, DoctorInfo, Clinic, Slot, AppointmentStatusHistory, sequelize } = require("../models");
+const { getAppointmentById } = require("./appointment.service");
 
 const createPatientProfile = async (userId, payload) => {
     const {
@@ -188,7 +189,8 @@ const bookAppointment = async (patientId, payload) => {
         doctor_id,
         clinic_id,
         slot_id,
-        notes
+        notes,
+        current_status
     } = payload;
     const t = await sequelize.transaction();
     try {
@@ -199,12 +201,12 @@ const bookAppointment = async (patientId, payload) => {
                 message: "doctor_id, clinic_id, slot_id are required"
             };
         }
-        const existing = await Appointment.findOne({
+        const existing = await Appointment.findOne({ //FIX
             where: {
                 doctor_id,
                 clinic_id,
                 slot_id,
-                current_status: ["pending", "confirmed"]
+                current_status: ["scheduled"]
             },
             transaction: t
         });
@@ -215,31 +217,49 @@ const bookAppointment = async (patientId, payload) => {
                 message: "Slot already booked"
             };
         }
+        const patientRecord = await UserPersonalInfo.findByPk(patientId, { transaction: t }) ||
+            await UserPersonalInfo.findOne({ where: { user_id: patientId }, transaction: t });
+        if (!patientRecord) {
+            await t.rollback();
+            return {
+                success: false,
+                message: "Patient not found"
+            };
+        }
         const appt = await Appointment.create({
             patient_id: patientId,
             doctor_id,
             clinic_id,
             slot_id,
-            current_status: "pending",
+            current_status : "scheduled",
             notes: notes || null
         }, {
             transaction: t
         });
         await AppointmentStatusHistory.create({
             appointment_id: appt.id,
-            status: "pending"
+            status: "scheduled"
         }, {
             transaction: t
         });
         await t.commit();
-        const full = await getAppointmentById(appt.id, patientId);
+        const full = await getAppointmentById(appt.id);
+        if (!full.success) {
+            return {
+                success: false,
+                message: full.message || "Failed to retrieve appointment"
+            };
+        }
         return {
             success: true,
             message: "Appointment booked",
             data: full.data
         };
     } catch (err) {
+        try {
         await t.rollback();
+        } catch (rollbackErr) {
+        }
         return {
             success: false,
             message: err.message
@@ -283,14 +303,23 @@ const cancelAppointment = async (appointmentId, patientId) => {
             transaction: t
         });
         await t.commit();
-        const full = await getAppointmentById(appointmentId, patientId);
+        const full = await getAppointmentById(appointmentId,);
+         if (!full.success) {
+            return {
+                success: false,
+                message: full.message || "Failed to retrieve appointment"
+            };
+        }
         return {
             success: true,
             message: "Appointment cancelled",
             data: full.data
         };
     } catch (err) {
+        try{
         await t.rollback();
+        } catch (rollbackErr) {
+        }
         return {
             success: false,
             message: err.message

@@ -132,6 +132,7 @@ const bookAppointment = async (req, res) => {
     }
     try {
         const result = await patientService.bookAppointment(patientId, req.body);
+        console.log(result); //FIX
         if (!result.success) {
             return res.status(400).json({
                 success: false,

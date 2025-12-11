@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const updateStatusSchema = Joi.object({
-    status: Joi.string().valid('pending', 'confirmed', 'cancelled', 'completed').required(),
+    status: Joi.string().valid('scheduled', 'confirmed', 'cancelled', 'deferred').required(),
     notes: Joi.string().max(500).optional()
 });
 
@@ -10,7 +10,7 @@ const appointmentIdParamSchema = Joi.object({
 });
 
 const appointmentQuerySchema = Joi.object({
-    status: Joi.string().valid('pending', 'confirmed', 'cancelled', 'completed').optional(),
+    status: Joi.string().valid('scheduled', 'confirmed', 'cancelled', 'deferred').optional(),
     doctor_id: Joi.number().integer().positive().optional(),
     clinic_id: Joi.number().integer().positive().optional(),
     patient_id: Joi.number().integer().positive().optional(),

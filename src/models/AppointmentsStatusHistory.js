@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true
     },
     status: {
-      type: DataTypes.ENUM('pending', 'confirmed', 'cancelled', 'completed'),
+      type: DataTypes.ENUM('scheduled', 'confirmed', 'cancelled', 'deferred'),
       allowNull: false
     }
   },
