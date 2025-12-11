@@ -1,51 +1,28 @@
-name: Deploy to EC2 (feature/test Branch)
-
+name: Deploy to EC2 
 on:
   push:
     branches:
       - feature/test
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
       - name: Deploy to EC2
-        env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
-          # Fail early with a clear message if required secrets are missing
-          if [ -z "$EC2_USER" ] || [ -z "$EC2_HOST" ]; then
-            echo "Required secrets EC2_USER or EC2_HOST are missing. Set repository secrets and retry." >&2
-            exit 1
-          fi
-
-          # Use a quoted heredoc so all expansions (like $USER) happen on the remote host,
-          # and avoid inline-quoting problems that caused the unexpected EOF error.
-          ssh -o StrictHostKeyChecking=no "$EC2_USER@$EC2_HOST" << 'REMOTE_EOF'
-            set -euo pipefail
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             echo "---- Pulling latest changes ----"
-            cd ~/doctor-management-backend || cd /home/$USER/doctor-management-backend
-            git fetch origin feature/test
-            git reset --hard origin/feature/test
-
+            cd /doctor-management-backend
+            git fetch --origin feature/test
+            git reset --hard origin/staging
             echo "---- Installing dependencies ----"
             npm install --production
-
             echo "---- Restarting server ----"
-            export PATH=$PATH:/usr/local/bin:~/.npm-global/bin
-            pm2 restart feature-test || pm2 start ecosystem.config.js --only feature-test
-
+            pm2 restart all
             echo "---- Deployment Completed Successfully ----"
-          REMOTE_EOF
-
-
-
+          EOF
