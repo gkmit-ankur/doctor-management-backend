@@ -79,8 +79,7 @@ const updateRole = async (roleId, payload) => {
         }
         await role.update({
             key: key !== undefined ? key : role.key,
-            title: title !== undefined ? title : role.title,
-            description: description !== undefined ? description : role.description
+            title: title !== undefined ? title : role.title
         });
         return {
             success: true,

@@ -54,7 +54,7 @@ const getUserRoles = async (userId) => {
         const userRoles = await UserRole.findAll({
             where: { user_id: userId },
             include: [
-                { model: Role, as: 'role', attributes: ['id', 'key', 'title', 'description'] }
+                { model: Role, as: 'role', attributes: ['id', 'key', 'title'] }
             ]
         });
         return {
