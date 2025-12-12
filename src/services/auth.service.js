@@ -25,7 +25,7 @@ const login = async (email, password) => {
         }
         const token = jwt.sign(
             { userId: user.id, email: user.email },
-            process.env.JWT_SECRET || 'my-secret-key',
+            process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
         const userData = {
@@ -73,7 +73,7 @@ const register = async (payload) => {
         }
         const token = jwt.sign(
             { userId: user.id, email: user.email },
-            process.env.JWT_SECRET || 'my-secret-key',
+            process.env.JWT_SECRET ,
             { expiresIn: '24h' }
         );
         return {
